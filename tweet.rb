@@ -15,7 +15,7 @@ count = json_data["count"]
 most,tweet	= tweets.size,tweets[count-1]
 count %= most
 
-json_data["count"] += 1
+json_data["count"] = count
 
 File.open(File.expand_path("../tweet.json", __FILE__),"w"){|f| f.write(JSON.pretty_generate(json_data))}
 

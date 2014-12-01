@@ -1,0 +1,22 @@
+#!/usr/bin/env ruby
+# -*- coding: utf-8 -*-
+require 'rubygems'
+require 'twitter'
+require 'yaml'
+require 'pp'
+
+cnt = File.read(File.expand_path("../cnt.txt", __FILE__),:encoding=>Encoding::UTF_8).to_i
+tweet = File.read(File.expand_path("../tweet.txt", __FILE__),:encoding=>Encoding::UTF_8).split("\n")
+config = YAML.load_file(File.expand_path("../config.yml", __FILE__))
+most,tweet	= tweet.size,tweet[cnt-1].gsub(/\|/,"\n")
+cnt = 0 if cnt == most
+
+File.open(File.expand_path("../cnt.txt", __FILE__),"w"){|f| f.write(cnt+1)}
+
+client = Twitter::REST::Client.new do |c|
+	c.consumer_key = config["consumer_key"]
+	c.consumer_secret = config["consumer_secret"]
+	c.access_token = config["access_token"]
+	c.access_token_secret	= config["access_token_secret"]
+end
+client.update tweet

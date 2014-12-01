@@ -12,7 +12,8 @@ config = YAML.load_file(File.expand_path("../config.yml", __FILE__))
 tweets = json_data["tweets"]
 count = json_data["count"]
 
-most,tweet	= tweets.size,tweets[count-1]
+most,tweet	= tweets.size,tweets[count]
+count += 1
 count %= most
 
 json_data["count"] = count

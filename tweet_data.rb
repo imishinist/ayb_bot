@@ -11,9 +11,7 @@ class TweetData
   end
 
   def read file_name = nil
-    if file_name.nil?
-      file_name = @file_name
-    end
+    file_name ||= @file_name
     json_data = File.open(file_name, "r") {|f| JSON.load(f) }
     @tweets = json_data["tweets"]
     @count = json_data["count"]
@@ -21,17 +19,13 @@ class TweetData
   end
 
   def write file_name = nil
-    if file_name.nil?
-      file_name = @file_name
-    end
+    file_name ||= @file_name
     File.open(file_name, "w") {|f| f.write(to_json(true)) }
     self
   end
 
   def tweet count = nil
-    if count.nil?
-      count = @count
-    end
+    count ||= @count
     @tweets[count]
   end
 

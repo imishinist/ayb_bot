@@ -3,30 +3,24 @@
 require 'json'
 
 class TweetData
-  attr_accessor :file_name, :tweets, :count
+  attr_accessor :tweets, :count
 
   def initialize file_name
-    @file_name = file_name
-    read
+    read(file_name)
   end
 
-  def read file_name = nil
-    file_name ||= @file_name
+  def read file_name
     json_data = File.open(file_name, "r") {|f| JSON.load(f) }
     @tweets = json_data["tweets"]
     @count = json_data["count"]
-    self
   end
 
-  def write file_name = nil
-    file_name ||= @file_name
+  def write file_name
     File.open(file_name, "w") {|f| f.write(to_json(true)) }
-    self
   end
 
-  def tweet count = nil
-    count ||= @count
-    @tweets[count]
+  def tweet
+    @tweets[@count]
   end
 
   def tweets_size
@@ -45,6 +39,7 @@ class TweetData
   def increment
     @count += 1
     @count %= tweets_size
+    self
   end
 
   def to_hash

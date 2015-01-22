@@ -16,6 +16,5 @@ end
 
 data = TweetData.new(File.expand_path("../tweet.json", __FILE__))
 
-client.update data.tweet
-data.increment
-data.write
+client.update(data.tweet)
+data.increment.write(File.expand_path("../tweet.json", __FILE__))

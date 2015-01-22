@@ -14,7 +14,8 @@ client = Twitter::REST::Client.new do |c|
   c.access_token_secret	= config["access_token_secret"]
 end
 
-data = TweetData.new(File.expand_path("../tweet.json", __FILE__))
+tweets_filename = File.expand_path('../tweet.json', __FILE__)
+data = TweetData.new(tweets_filename)
 
 client.update(data.tweet)
-data.increment.write(File.expand_path("../tweet.json", __FILE__))
+data.increment.write(tweets_filename)

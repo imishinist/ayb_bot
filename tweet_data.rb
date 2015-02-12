@@ -3,7 +3,7 @@
 require 'json'
 
 class TweetData
-  attr_accessor :tweets, :count
+  attr_accessor :tweets
 
   def initialize file_name
     read(file_name)
@@ -12,7 +12,6 @@ class TweetData
   def read file_name
     json_data = File.open(file_name, "r") {|f| JSON.load(f) }
     @tweets = json_data["tweets"]
-    @count = json_data["count"]
   end
 
   def write file_name
@@ -20,7 +19,7 @@ class TweetData
   end
 
   def tweet
-    @tweets[@count]
+    @tweets.sample
   end
 
   def tweets_size
@@ -36,14 +35,8 @@ class TweetData
     self
   end
 
-  def increment
-    @count += 1
-    @count %= tweets_size
-    self
-  end
-
   def to_hash
-    {count: @count, tweets: @tweets}
+    {tweets: @tweets}
   end
 
   def to_json is_pretty = false

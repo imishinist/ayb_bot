@@ -18,4 +18,3 @@ tweets_filename = File.expand_path('../tweet.json', __FILE__)
 data = TweetData.new(tweets_filename)
 
 client.update(data.tweet)
-data.increment.write(tweets_filename)

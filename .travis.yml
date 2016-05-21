@@ -19,5 +19,5 @@ before_script:
 script:
     - ruby test/json.rb
 
-after_success: sh deploy.sh
+after_success: USER=$USER DEPLOY_HOST=$DEPLOY_HOST sh deploy.sh
 

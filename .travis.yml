@@ -1,0 +1,23 @@
+env:
+    global:
+        - secure: "P80MHgDX4SvZeseHOy9n0AdYJWRGGGInu5+PClrCA31tDOkBtBTVnlnrE2U9gdPD+SJRYLJ5smtyQkn9YRCffqjyDoHmPfAwYETnW7NKfzZgS1d0XbJylbyd4Jm4crTGH2fhP1yGURUmcgk0gIisDOk1sXuQp6WRCY5qJK8xzuA="
+        - secure: "Risx1YFk0ClZe5AxcKQm31VIlsidN0dZPmCXr4Wy9Z7Y1xZ4lkpVURgyGpVqMhto0VxbvFs2kp8S3WqNSBbtczO5m9Xvo+5eVpvQcr/2scCeOEt3TlSKsWSb32E9Elog75p+wngLZcAef36uZ4y4zdArUYU+7cn/Hk4mnkbAtaY="
+
+language: ruby
+rvm: 2.2.0
+install: bundle install
+cache:
+    directories: vendor/bundle
+
+before_script:
+    - eval `ssh-agent -s`
+    - chmod 600 ~/.ssh/config
+    - openssl aes-256-cbc -K $encrypted_d267311fad6a_key -iv $encrypted_d267311fad6a_iv -in .travis/travis_key.enc -out travis_key -d
+    - cp travis_key ~/.ssh/
+    - chmod 600 ~/.ssh/travis_key
+    - ssh-add ~/.ssh/travis_key
+script:
+    - ruby test/json.rb
+
+after_success: deploy.sh
+
